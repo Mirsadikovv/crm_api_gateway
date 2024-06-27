@@ -17,14 +17,10 @@ type Config struct {
 	RedisPort     int
 	RedisPassword string
 
-	CatalogServiceHost string
-	CatalogServicePort string
-	OrderServiceHost   string
-	OrderServicePort   string
-	UserServiceHost    string
-	UserServicePort    string
-	AuthServiceHost    string
-	AuthServicePort    string
+	UserServiceHost     string
+	UserServicePort     string
+	ScheduleServiceHost string
+	ScheduleServicePort string
 
 	LogLevel string
 	HTTPPort string
@@ -41,22 +37,16 @@ func Load() Config {
 	c.Environment = cast.ToString(getOrReturnDefault("ENVIRONMENT", "prod"))
 
 	c.LogLevel = cast.ToString(getOrReturnDefault("LOG_LEVEL", "debug"))
-	c.HTTPPort = cast.ToString(getOrReturnDefault("HTTP_PORT", "1239"))
+	c.HTTPPort = cast.ToString(getOrReturnDefault("HTTP_PORT", "8080"))
 	c.RedisHost = cast.ToString(getOrReturnDefault("REDIS_HOST", "127.0.0.1"))
 	c.RedisPort = cast.ToInt(getOrReturnDefault("REDIS_PORT", 6379))
 	c.RedisPassword = cast.ToString(getOrReturnDefault("REDIS_PASSWORD", "3EEdwhDOfx"))
 
-	c.CatalogServiceHost = cast.ToString(getOrReturnDefault("CATALOG_SERVICE_HOST", "localhost"))
-	c.CatalogServicePort = cast.ToString(getOrReturnDefault("CATALOG_GRPC_PORT", "8081"))
-
-	c.OrderServiceHost = cast.ToString(getOrReturnDefault("ORDER_SERVICE_HOST", "localhost"))
-	c.OrderServicePort = cast.ToString(getOrReturnDefault("ORDER_SERVICE_PORT", "8082"))
+	c.ScheduleServiceHost = cast.ToString(getOrReturnDefault("SCHEDULE_SERVICE_HOST", "localhost"))
+	c.ScheduleServicePort = cast.ToString(getOrReturnDefault("SCHEDULE_GRPC_PORT", "8082"))
 
 	c.UserServiceHost = cast.ToString(getOrReturnDefault("USER_SERVICE_HOST", "localhost"))
-	c.UserServicePort = cast.ToString(getOrReturnDefault("USER_SERVICE_PORT", "8083"))
-
-	c.AuthServiceHost = cast.ToString(getOrReturnDefault("USER_SERVICE_HOST", "localhost"))
-	c.AuthServicePort = cast.ToString(getOrReturnDefault("USER_SERVICE_PORT", "8084"))
+	c.UserServicePort = cast.ToString(getOrReturnDefault("USER_SERVICE_PORT", "8081"))
 
 	return c
 }

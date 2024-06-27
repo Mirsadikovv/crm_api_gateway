@@ -1,18 +1,21 @@
 package grpc_client
 
 import (
-	"customer-api-gateway/config"
-	pc "customer-api-gateway/genproto/catalog_service"
-	pd "customer-api-gateway/genproto/product_service"
-	rv "customer-api-gateway/genproto/review_service"
-	"log"
-
-	op "customer-api-gateway/genproto/order_product"
-	os "customer-api-gateway/genproto/order_status_notes"
-	ct "customer-api-gateway/genproto/orders_service"
-
-	as "customer-api-gateway/genproto/auth_service"
-	us "customer-api-gateway/genproto/user_service"
+	"crm_api_gateway/config"
+	"crm_api_gateway/genproto/administrator_service"
+	"crm_api_gateway/genproto/branch_service"
+	"crm_api_gateway/genproto/event_registrate_service"
+	"crm_api_gateway/genproto/event_service"
+	"crm_api_gateway/genproto/group_service"
+	"crm_api_gateway/genproto/journal_service"
+	"crm_api_gateway/genproto/lesson_service"
+	"crm_api_gateway/genproto/manager_service"
+	"crm_api_gateway/genproto/perfomance_service"
+	"crm_api_gateway/genproto/schedule_service"
+	"crm_api_gateway/genproto/student_service"
+	"crm_api_gateway/genproto/superadmin_service"
+	"crm_api_gateway/genproto/support_teacher_service"
+	"crm_api_gateway/genproto/teacher_service"
 
 	"fmt"
 
@@ -21,19 +24,20 @@ import (
 )
 
 type GrpcClientI interface {
-	CategoryService() pc.CategoryServiceClient
-	ProductService() pc.CategoryServiceClient
-	ReviewService() rv.ReviewServiceClient
-
-	ProducOrderService() op.OrderProductsServiceClient
-	OrderService() ct.OrderServiceServer
-	OrderStatus() os.OrderStatusServiceClient
-
-	UserService() us.CustomerServiceClient
-	SystemUserService() us.UsServiceClient
-	SellerService() us.SellerServiceClient
-	BranchService() us.BranchServiceClient
-	ShopService() us.ShopServiceClient
+	Student() student_service.StudentServiceClient
+	Teacher() teacher_service.TeacherServiceClient
+	SupportTeacher() support_teacher_service.SupportTeacherServiceClient
+	Manager() manager_service.ManagerServiceClient
+	Branch() branch_service.BranchServiceClient
+	Group() group_service.GroupServiceClient
+	Administrator() administrator_service.AdministratorServiceClient
+	Superadmin() superadmin_service.SuperadminServiceClient
+	Event() event_service.EventServiceClient
+	EventRegistrate() event_registrate_service.EventRegistrateServiceClient
+	Lesson() lesson_service.LessonServiceClient
+	Journal() journal_service.JournalServiceClient
+	Schedule() schedule_service.ScheduleServiceClient
+	Perfomance() perfomance_service.PerfomanceServiceClient
 }
 
 type GrpcClient struct {
@@ -42,139 +46,97 @@ type GrpcClient struct {
 }
 
 func New(cfg config.Config) (*GrpcClient, error) {
-	connCatalog, err := grpc.NewClient(
-		fmt.Sprintf("%s:%s", cfg.CatalogServiceHost, cfg.CatalogServicePort),
-		grpc.WithTransportCredentials(insecure.NewCredentials()))
-
-	if err != nil {
-		return nil, fmt.Errorf("catalog service dial host: %v port:%v err: %v",
-			cfg.CatalogServiceHost, cfg.CatalogServicePort, err)
-	}
-	connOrder, err := grpc.NewClient(
-		fmt.Sprintf("%s:%s", cfg.OrderServiceHost, cfg.OrderServicePort),
-		grpc.WithTransportCredentials(insecure.NewCredentials()))
-
-	if err != nil {
-		return nil, fmt.Errorf("order service dial hsot:%v port :%v err:%v",
-			cfg.OrderServiceHost, cfg.OrderServicePort, err)
-	}
-
 	connUser, err := grpc.NewClient(
 		fmt.Sprintf("%s:%s", cfg.UserServiceHost, cfg.UserServicePort),
 		grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
-		return nil, fmt.Errorf("user service dial host: %v port :%v err:%v",
+		return nil, fmt.Errorf("user service dial host: %v port:%v err: %v",
 			cfg.UserServiceHost, cfg.UserServicePort, err)
 	}
 
-	connAuth, err := grpc.NewClient(
-		fmt.Sprintf("%s:%s", cfg.AuthServiceHost, cfg.AuthServicePort),
+	connSchedule, err := grpc.NewClient(
+		fmt.Sprintf("%s:%s", cfg.ScheduleServiceHost, cfg.ScheduleServicePort),
 		grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
-		return nil, fmt.Errorf("catalog service dial host: %s port:%s err: %s",
-			cfg.AuthServiceHost, cfg.AuthServicePort, err)
+		return nil, fmt.Errorf("schedule service dial host: %v port:%v err: %v",
+			cfg.ScheduleServiceHost, cfg.ScheduleServicePort, err)
 	}
 
 	return &GrpcClient{
 		cfg: cfg,
 		connections: map[string]interface{}{
-			"category_service":     pc.NewCategoryServiceClient(connCatalog),
-			"product_service":      pd.NewProductServiceClient(connCatalog),
-			"review_service":       rv.NewReviewServiceClient(connCatalog),
-			"orderproduct_service": op.NewOrderProductsServiceClient(connOrder),
-			"order_service":        ct.NewOrderServiceClient(connOrder),
-			"order_status":         os.NewOrderStatusServiceClient(connOrder),
-			"user_service":         us.NewCustomerServiceClient(connUser),
-			"system_user":          us.NewUsServiceClient(connUser),
-			"seller":               us.NewSellerServiceClient(connUser),
-			"branch":               us.NewBranchServiceClient(connUser),
-			"shop":                 us.NewShopServiceClient(connUser),
-			"customer_auth":        as.NewCustomerAuthClient(connAuth),
-			"seller_auth":          as.NewSellerAuthClient(connAuth),
-			"system_user_auth":     as.NewSystemUserAuthClient(connAuth),
+			"student_service":          student_service.NewStudentServiceClient(connUser),
+			"teacher_service":          teacher_service.NewTeacherServiceClient(connUser),
+			"support_teacher_service":  support_teacher_service.NewSupportTeacherServiceClient(connUser),
+			"branch_service":           branch_service.NewBranchServiceClient(connUser),
+			"group_service":            group_service.NewGroupServiceClient(connUser),
+			"manager_service":          manager_service.NewManagerServiceClient(connUser),
+			"administrator_service":    administrator_service.NewAdministratorServiceClient(connUser),
+			"superadmin_service":       superadmin_service.NewSuperadminServiceClient(connUser),
+			"event_service":            event_service.NewEventServiceClient(connUser),
+			"event_registrate_service": event_registrate_service.NewEventRegistrateServiceClient(connUser),
+			"lesson_service":           lesson_service.NewLessonServiceClient(connSchedule),
+			"schedule_service":         schedule_service.NewScheduleServiceClient(connUser),
+			"journal_service":          journal_service.NewJournalServiceClient(connUser),
+			"perfomance_service":       perfomance_service.NewPerfomanceServiceClient(connUser),
 		},
 	}, nil
 }
 
-func (g *GrpcClient) CategoryService() pc.CategoryServiceClient {
-	return g.connections["category_service"].(pc.CategoryServiceClient)
+func (g *GrpcClient) StudentService() student_service.StudentServiceClient {
+	return g.connections["student_service"].(student_service.StudentServiceClient)
 }
 
-func (g *GrpcClient) ProductService() pd.ProductServiceClient {
-	return g.connections["product_service"].(pd.ProductServiceClient)
+func (g *GrpcClient) TeacherService() teacher_service.TeacherServiceClient {
+	return g.connections["teacher_service"].(teacher_service.TeacherServiceClient)
 }
 
-func (g *GrpcClient) ReviewService() rv.ReviewServiceClient {
-	return g.connections["review_service"].(rv.ReviewServiceClient)
+func (g *GrpcClient) BranchService() branch_service.BranchServiceClient {
+	return g.connections["branch_service"].(branch_service.BranchServiceClient)
 }
 
-func (o *GrpcClient) ProducOrderService() op.OrderProductsServiceClient {
-	return o.connections["orderproduct_service"].(op.OrderProductsServiceClient)
+func (g *GrpcClient) GroupService() group_service.GroupServiceClient {
+	return g.connections["group_service"].(group_service.GroupServiceClient)
 }
 
-func (o *GrpcClient) OrderService() ct.OrderServiceClient {
-	return o.connections["order_service"].(ct.OrderServiceClient)
+func (g *GrpcClient) SupportTeacherService() support_teacher_service.SupportTeacherServiceClient {
+	return g.connections["support_teacher_service"].(support_teacher_service.SupportTeacherServiceClient)
 }
 
-func (o *GrpcClient) OrderStatus() os.OrderStatusServiceClient {
-	return o.connections["order_status"].(os.OrderStatusServiceClient)
+func (g *GrpcClient) AdministratorService() administrator_service.AdministratorServiceClient {
+	return g.connections["administrator_service"].(administrator_service.AdministratorServiceClient)
 }
 
-func (g *GrpcClient) UserService() us.CustomerServiceClient {
-	client, ok := g.connections["user_service"].(us.CustomerServiceClient)
-	if !ok {
-		log.Println("failed to assert type for user_service")
-		return nil
-	}
-	return client
+func (g *GrpcClient) ManagerService() manager_service.ManagerServiceClient {
+	return g.connections["manager_service"].(manager_service.ManagerServiceClient)
 }
 
-func (g *GrpcClient) SystemUserService() us.UsServiceClient {
-	client, ok := g.connections["system_user"].(us.UsServiceClient)
-	if !ok {
-		log.Println("failed to assert type for system_user")
-		return nil
-	}
-	return client
+func (g *GrpcClient) EventService() event_service.EventServiceClient {
+	return g.connections["event_service"].(event_service.EventServiceClient)
 }
 
-func (g *GrpcClient) SellerService() us.SellerServiceClient {
-	client, ok := g.connections["seller"].(us.SellerServiceClient)
-	if !ok {
-		log.Println("failed to assert type for seller")
-		return nil
-	}
-	return client
+func (g *GrpcClient) EventRegistrateService() event_registrate_service.EventRegistrateServiceClient {
+	return g.connections["event_registrate_service"].(event_registrate_service.EventRegistrateServiceClient)
 }
 
-func (g *GrpcClient) BranchService() us.BranchServiceClient {
-	client, ok := g.connections["branch"].(us.BranchServiceClient)
-	if !ok {
-		log.Println("failed to assert type for branch")
-		return nil
-	}
-	return client
+func (g *GrpcClient) SuperadminService() superadmin_service.SuperadminServiceClient {
+	return g.connections["superadmin_service"].(superadmin_service.SuperadminServiceClient)
 }
 
-func (g *GrpcClient) ShopService() us.ShopServiceClient {
-	client, ok := g.connections["shop"].(us.ShopServiceClient)
-	if !ok {
-		log.Println("failed to assert type for shop")
-		return nil
-	}
-	return client
+func (g *GrpcClient) ScheduleService() schedule_service.ScheduleServiceClient {
+	return g.connections["schedule_service"].(schedule_service.ScheduleServiceClient)
 }
 
-func (g *GrpcClient) AuthCustomerService() as.CustomerAuthClient {
-	return g.connections["customer_auth"].(as.CustomerAuthClient)
+func (g *GrpcClient) LessonService() lesson_service.LessonServiceClient {
+	return g.connections["lesson_service"].(lesson_service.LessonServiceClient)
 }
 
-func (g *GrpcClient) AuthSellerService() as.SellerAuthClient {
-	return g.connections["seller_auth"].(as.SellerAuthClient)
+func (g *GrpcClient) JournalService() journal_service.JournalServiceClient {
+	return g.connections["journal_service"].(journal_service.JournalServiceClient)
 }
 
-func (g *GrpcClient) AuthSystemUserService() as.SystemUserAuthClient {
-	return g.connections["system_user_auth"].(as.SystemUserAuthClient)
+func (g *GrpcClient) PerfomanceService() perfomance_service.PerfomanceServiceClient {
+	return g.connections["perfomance_service"].(perfomance_service.PerfomanceServiceClient)
 }

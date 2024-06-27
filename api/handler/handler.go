@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"customer-api-gateway/api/models"
-	"customer-api-gateway/config"
-	"customer-api-gateway/pkg/grpc_client"
-	"customer-api-gateway/pkg/logger"
+	"crm_api_gateway/api/models"
+	"crm_api_gateway/config"
+	"crm_api_gateway/pkg/grpc_client"
+	"crm_api_gateway/pkg/logger"
 	"net/http"
 	"strconv"
 

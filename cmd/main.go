@@ -1,10 +1,10 @@
 package main
 
 import (
-	"customer-api-gateway/api"
-	"customer-api-gateway/config"
-	"customer-api-gateway/pkg/grpc_client"
-	"customer-api-gateway/pkg/logger"
+	"crm_api_gateway/api"
+	"crm_api_gateway/config"
+	"crm_api_gateway/pkg/grpc_client"
+	"crm_api_gateway/pkg/logger"
 )
 
 var (
@@ -16,7 +16,7 @@ var (
 func initDeps() {
 	var err error
 	cfg = config.Load()
-	log = logger.New(cfg.LogLevel, "customer-api-gateway")
+	log = logger.New(cfg.LogLevel, "crm_api_gateway")
 
 	grpcClient, err = grpc_client.New(cfg)
 	if err != nil {

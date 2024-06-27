@@ -1,12 +1,302 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a Catalog service server celler server.",
-        "title": "Swagger Category Service API",
+        "description": "This is a CRM celler server.",
+        "title": "Swagger CRM system API",
         "contact": {},
         "version": "1.0"
     },
     "paths": {
+        "/v1/administrator/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for creating administratores",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "administrator"
+                ],
+                "summary": "Create administrator",
+                "parameters": [
+                    {
+                        "description": "administrator",
+                        "name": "administrator",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/administrator_service.CreateAdministrator"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/administrator/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for deleting administrator",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "administrator"
+                ],
+                "summary": "Delete administrator",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/administrator/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for getting administrator",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "administrator"
+                ],
+                "summary": "Get administrator",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/administrator/getall": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for getting all administratores",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "administrator"
+                ],
+                "summary": "Get all administratores",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/administrator/update": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for Updating administratores",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "administrator"
+                ],
+                "summary": "Update administrator",
+                "parameters": [
+                    {
+                        "description": "administrator",
+                        "name": "administrator",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/administrator_service.UpdateAdministrator"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/branch/create": {
             "post": {
                 "security": [
@@ -14,7 +304,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for creating branch",
+                "description": "API for creating branches",
                 "consumes": [
                     "application/json"
                 ],
@@ -32,7 +322,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_service.CreateBranch"
+                            "$ref": "#/definitions/branch_service.CreateBranch"
                         }
                     }
                 ],
@@ -40,7 +330,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.CreateBranch"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -65,7 +361,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for deleting a branch by ID",
+                "description": "API for deleting branch",
                 "consumes": [
                     "application/json"
                 ],
@@ -75,11 +371,11 @@
                 "tags": [
                     "branch"
                 ],
-                "summary": "Delete a branch by ID",
+                "summary": "Delete branch",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "branch ID",
+                        "description": "id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -88,6 +384,12 @@
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseError"
                         }
@@ -107,14 +409,14 @@
                 }
             }
         },
-        "/v1/branch/getbyid/{id}": {
+        "/v1/branch/get/{id}": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting a single branch by ID",
+                "description": "API for getting branch",
                 "consumes": [
                     "application/json"
                 ],
@@ -124,11 +426,11 @@
                 "tags": [
                     "branch"
                 ],
-                "summary": "Get a single branch by ID",
+                "summary": "Get branch",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "branch ID",
+                        "description": "id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -138,7 +440,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.Branch"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -156,14 +464,14 @@
                 }
             }
         },
-        "/v1/branch/getlist": {
+        "/v1/branch/getall": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting list branch",
+                "description": "API for getting all branches",
                 "consumes": [
                     "application/json"
                 ],
@@ -173,12 +481,12 @@
                 "tags": [
                     "branch"
                 ],
-                "summary": "Get List Branch",
+                "summary": "Get all branches",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "branches",
-                        "name": "branch",
+                        "description": "search",
+                        "name": "search",
                         "in": "query"
                     },
                     {
@@ -198,7 +506,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.GetListBranchResponse"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -216,14 +530,14 @@
                 }
             }
         },
-        "/v1/branch/update/{id}": {
+        "/v1/branch/update": {
             "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for updating a branch by ID",
+                "description": "API for Updating branches",
                 "consumes": [
                     "application/json"
                 ],
@@ -233,22 +547,15 @@
                 "tags": [
                     "branch"
                 ],
-                "summary": "Update a branch by ID",
+                "summary": "Update branch",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "branch ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "description": "branch",
                         "name": "branch",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_service.UpdateBranch"
+                            "$ref": "#/definitions/branch_service.UpdateBranch"
                         }
                     }
                 ],
@@ -256,7 +563,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.Branch"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -274,14 +587,14 @@
                 }
             }
         },
-        "/v1/category/create": {
+        "/v1/event/create": {
             "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for creating categories",
+                "description": "API for creating eventes",
                 "consumes": [
                     "application/json"
                 ],
@@ -289,17 +602,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "category"
+                    "event"
                 ],
-                "summary": "Create category",
+                "summary": "Create event",
                 "parameters": [
                     {
-                        "description": "category",
-                        "name": "category",
+                        "description": "event",
+                        "name": "event",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/catalog_service.CreateCategory"
+                            "$ref": "#/definitions/event_service.CreateEvent"
                         }
                     }
                 ],
@@ -331,14 +644,14 @@
                 }
             }
         },
-        "/v1/category/delete/{id}": {
+        "/v1/event/delete/{id}": {
             "delete": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for deleting category",
+                "description": "API for deleting event",
                 "consumes": [
                     "application/json"
                 ],
@@ -346,9 +659,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "category"
+                    "event"
                 ],
-                "summary": "Delete category",
+                "summary": "Delete event",
                 "parameters": [
                     {
                         "type": "string",
@@ -386,14 +699,14 @@
                 }
             }
         },
-        "/v1/category/get/{id}": {
+        "/v1/event/get/{id}": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting category",
+                "description": "API for getting event",
                 "consumes": [
                     "application/json"
                 ],
@@ -401,9 +714,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "category"
+                    "event"
                 ],
-                "summary": "Get category",
+                "summary": "Get event",
                 "parameters": [
                     {
                         "type": "string",
@@ -441,14 +754,14 @@
                 }
             }
         },
-        "/v1/category/getall": {
+        "/v1/event/getall": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting all categories",
+                "description": "API for getting all eventes",
                 "consumes": [
                     "application/json"
                 ],
@@ -456,9 +769,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "category"
+                    "event"
                 ],
-                "summary": "Get all categories",
+                "summary": "Get all eventes",
                 "parameters": [
                     {
                         "type": "string",
@@ -507,14 +820,14 @@
                 }
             }
         },
-        "/v1/category/update": {
+        "/v1/event/update": {
             "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for Updating categories",
+                "description": "API for Updating eventes",
                 "consumes": [
                     "application/json"
                 ],
@@ -522,17 +835,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "category"
+                    "event"
                 ],
-                "summary": "Update category",
+                "summary": "Update event",
                 "parameters": [
                     {
-                        "description": "category",
-                        "name": "category",
+                        "description": "event",
+                        "name": "event",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/catalog_service.UpdateCategory"
+                            "$ref": "#/definitions/event_service.UpdateEvent"
                         }
                     }
                 ],
@@ -564,14 +877,14 @@
                 }
             }
         },
-        "/v1/customer/create": {
+        "/v1/event_registrate/create": {
             "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for creating customer",
+                "description": "API for creating event_registratees",
                 "consumes": [
                     "application/json"
                 ],
@@ -579,17 +892,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "customer"
+                    "event_registrate"
                 ],
-                "summary": "Create customer",
+                "summary": "Create event_registrate",
                 "parameters": [
                     {
-                        "description": "customer",
-                        "name": "order",
+                        "description": "event_registrate",
+                        "name": "event_registrate",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_service.CreateCustomer"
+                            "$ref": "#/definitions/event_registrate_service.CreateEventRegistrate"
                         }
                     }
                 ],
@@ -597,7 +910,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.CreateCustomer"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -615,14 +934,14 @@
                 }
             }
         },
-        "/v1/customer/delete/{id}": {
+        "/v1/event_registrate/delete/{id}": {
             "delete": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for deleting a customer by ID",
+                "description": "API for deleting event_registrate",
                 "consumes": [
                     "application/json"
                 ],
@@ -630,1056 +949,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "customer"
+                    "event_registrate"
                 ],
-                "summary": "Delete a customer by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "customer ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/getbyid/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for getting a single category by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "customer"
-                ],
-                "summary": "Get a single customer by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "customer ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/user_service.Customer"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/getlist": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for getting list customer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "customer"
-                ],
-                "summary": "Get List Customer",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "customers",
-                        "name": "customer",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "page",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "limit",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/user_service.GetListCustomerResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/login": {
-            "post": {
-                "description": "This api login a customer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Login  a customer",
-                "parameters": [
-                    {
-                        "description": "customer",
-                        "name": "customer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.GmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/loginconfirm": {
-            "post": {
-                "description": "This api login confirm a customer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Login confirm a customer",
-                "parameters": [
-                    {
-                        "description": "customer",
-                        "name": "customer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.LoginByGmailRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/loginpassword": {
-            "post": {
-                "description": "This api login a customer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Login  a customer",
-                "parameters": [
-                    {
-                        "description": "customer",
-                        "name": "customer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.LoginRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/register": {
-            "post": {
-                "description": "This api register a customer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Register a customer",
-                "parameters": [
-                    {
-                        "description": "customer",
-                        "name": "customer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.GmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/registercomfirm": {
-            "post": {
-                "description": "This api register confirm a customer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Register Confirm a customer",
-                "parameters": [
-                    {
-                        "description": "customer",
-                        "name": "customer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.RConfirm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/resetconfirm": {
-            "put": {
-                "description": "This api reset password confirm a customer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Confirm reset password a customer",
-                "parameters": [
-                    {
-                        "description": "customer",
-                        "name": "customer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.CustomerPasswordConfirm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/resetpassword": {
-            "put": {
-                "description": "This api reset a password a customer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Reset a password a customer",
-                "parameters": [
-                    {
-                        "description": "customer",
-                        "name": "customer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.GmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/customer/update/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for updating a customer by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "customer"
-                ],
-                "summary": "Update a customer by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "customer ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "customer",
-                        "name": "category",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/user_service.UpdateCustomer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/user_service.Customer"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/order": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for creating a order_product",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "order_product"
-                ],
-                "summary": "Create Order_product",
-                "parameters": [
-                    {
-                        "description": "Order_Product",
-                        "name": "order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/order_product.CreateOrderProducts"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/order-status": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "This API create the status of an order",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "order_status"
-                ],
-                "summary": "Update order status by ID",
-                "parameters": [
-                    {
-                        "description": "Order Status",
-                        "name": "order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/order_status_notes.CreateStatusRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "This API updates the status of an order by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "order_status"
-                ],
-                "summary": "Update order status by ID",
-                "parameters": [
-                    {
-                        "description": "Order Status",
-                        "name": "orders",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/order_status_notes.OrderPrimaryStatusKeyRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/order-status/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "This api get a order by id",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "order_status"
-                ],
-                "summary": "Get by id a orderstatus",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/order-statusp/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "This API gets an order by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "order_statusp"
-                ],
-                "summary": "Get by id a orderstatusputch",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Order Status ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/order/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "This api get a order by id",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "order_product"
-                ],
-                "summary": "Get by id a order",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/orders": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for creating a order",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "orders"
-                ],
-                "summary": "Create Order",
-                "parameters": [
-                    {
-                        "description": "Order",
-                        "name": "order",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/orders_service.CreateOrder"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/orders/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "This api get a order by id",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "orders"
-                ],
-                "summary": "Get by id a order",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/product/create": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for creating categories",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "product"
-                ],
-                "summary": "Create product",
-                "parameters": [
-                    {
-                        "description": "product",
-                        "name": "product",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/product_service.CreateProduct"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/product/delete/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for deleting product",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "product"
-                ],
-                "summary": "Delete product",
+                "summary": "Delete event_registrate",
                 "parameters": [
                     {
                         "type": "string",
@@ -1717,14 +989,14 @@
                 }
             }
         },
-        "/v1/product/get/{id}": {
+        "/v1/event_registrate/get/{id}": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting product",
+                "description": "API for getting event_registrate",
                 "consumes": [
                     "application/json"
                 ],
@@ -1732,9 +1004,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "event_registrate"
                 ],
-                "summary": "Get product",
+                "summary": "Get event_registrate",
                 "parameters": [
                     {
                         "type": "string",
@@ -1772,14 +1044,14 @@
                 }
             }
         },
-        "/v1/product/getall": {
-            "get": {
+        "/v1/event_registrate/update": {
+            "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting all categories",
+                "description": "API for Updating event_registratees",
                 "consumes": [
                     "application/json"
                 ],
@@ -1787,9 +1059,233 @@
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "event_registrate"
                 ],
-                "summary": "Get all categories",
+                "summary": "Update event_registrate",
+                "parameters": [
+                    {
+                        "description": "event_registrate",
+                        "name": "event_registrate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/event_registrate_service.UpdateEventRegistrate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/group/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for creating groupes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Create group",
+                "parameters": [
+                    {
+                        "description": "group",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/group_service.CreateGroup"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/group/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for deleting group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Delete group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/group/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for getting group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Get group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/group/getall": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for getting all groupes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Get all groupes",
                 "parameters": [
                     {
                         "type": "string",
@@ -1838,14 +1334,14 @@
                 }
             }
         },
-        "/v1/product/update": {
+        "/v1/group/update": {
             "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for Updating categories",
+                "description": "API for Updating groupes",
                 "consumes": [
                     "application/json"
                 ],
@@ -1853,17 +1349,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "group"
                 ],
-                "summary": "Update product",
+                "summary": "Update group",
                 "parameters": [
                     {
-                        "description": "product",
-                        "name": "product",
+                        "description": "group",
+                        "name": "group",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/product_service.UpdateProduct"
+                            "$ref": "#/definitions/group_service.UpdateGroup"
                         }
                     }
                 ],
@@ -1895,14 +1391,14 @@
                 }
             }
         },
-        "/v1/review/create": {
+        "/v1/manager/create": {
             "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for creating reviews",
+                "description": "API for creating manageres",
                 "consumes": [
                     "application/json"
                 ],
@@ -1910,17 +1406,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "review"
+                    "manager"
                 ],
-                "summary": "Create review",
+                "summary": "Create manager",
                 "parameters": [
                     {
-                        "description": "review",
-                        "name": "review",
+                        "description": "manager",
+                        "name": "manager",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/review_service.CreateReview"
+                            "$ref": "#/definitions/manager_service.CreateManager"
                         }
                     }
                 ],
@@ -1952,14 +1448,14 @@
                 }
             }
         },
-        "/v1/review/delete/{id}": {
+        "/v1/manager/delete/{id}": {
             "delete": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for deleting review",
+                "description": "API for deleting manager",
                 "consumes": [
                     "application/json"
                 ],
@@ -1967,9 +1463,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "review"
+                    "manager"
                 ],
-                "summary": "Delete review",
+                "summary": "Delete manager",
                 "parameters": [
                     {
                         "type": "string",
@@ -2007,14 +1503,14 @@
                 }
             }
         },
-        "/v1/review/getall/{id}": {
+        "/v1/manager/get/{id}": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting all reviews",
+                "description": "API for getting manager",
                 "consumes": [
                     "application/json"
                 ],
@@ -2022,9 +1518,64 @@
                     "application/json"
                 ],
                 "tags": [
-                    "review"
+                    "manager"
                 ],
-                "summary": "Get all reviews",
+                "summary": "Get manager",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/manager/getall": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for getting all manageres",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "manager"
+                ],
+                "summary": "Get all manageres",
                 "parameters": [
                     {
                         "type": "string",
@@ -2043,7 +1594,169 @@
                         "description": "limit",
                         "name": "limit",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/manager/update": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for Updating manageres",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "manager"
+                ],
+                "summary": "Update manager",
+                "parameters": [
+                    {
+                        "description": "manager",
+                        "name": "manager",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/manager_service.UpdateManager"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/student/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for creating studentes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "student"
+                ],
+                "summary": "Create student",
+                "parameters": [
+                    {
+                        "description": "student",
+                        "name": "student",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/student_service.CreateStudent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/student/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for deleting student",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "student"
+                ],
+                "summary": "Delete student",
+                "parameters": [
                     {
                         "type": "string",
                         "description": "id",
@@ -2080,14 +1793,14 @@
                 }
             }
         },
-        "/v1/seller/create": {
-            "post": {
+        "/v1/student/get/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for creating seller",
+                "description": "API for getting student",
                 "consumes": [
                     "application/json"
                 ],
@@ -2095,64 +1808,13 @@
                     "application/json"
                 ],
                 "tags": [
-                    "seller"
+                    "student"
                 ],
-                "summary": "Create seller",
-                "parameters": [
-                    {
-                        "description": "seller",
-                        "name": "seller",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/user_service.CreateSeller"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/user_service.CreateSeller"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/delete/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for deleting a seller by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "seller"
-                ],
-                "summary": "Delete a seller by ID",
+                "summary": "Get student",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "seller ID",
+                        "description": "id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2165,53 +1827,10 @@
                             "$ref": "#/definitions/models.ResponseError"
                         }
                     },
-                    "404": {
-                        "description": "Not Found",
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/getbyid/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "API for getting a single seller by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "seller"
-                ],
-                "summary": "Get a single seller by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "seller ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/user_service.Seller"
                         }
                     },
                     "404": {
@@ -2229,14 +1848,14 @@
                 }
             }
         },
-        "/v1/seller/getlist": {
+        "/v1/student/getall": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting list seller",
+                "description": "API for getting all studentes",
                 "consumes": [
                     "application/json"
                 ],
@@ -2244,14 +1863,14 @@
                     "application/json"
                 ],
                 "tags": [
-                    "seller"
+                    "student"
                 ],
-                "summary": "Get List seller",
+                "summary": "Get all studentes",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "sellers",
-                        "name": "seller",
+                        "description": "search",
+                        "name": "search",
                         "in": "query"
                     },
                     {
@@ -2271,53 +1890,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.GetListSellerResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
                             "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/login": {
-            "post": {
-                "description": "This api login a seller",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Seller"
-                ],
-                "summary": "Login  a seller",
-                "parameters": [
-                    {
-                        "description": "seller",
-                        "name": "seller",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SellerGmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
                         }
                     },
                     "400": {
@@ -2341,326 +1914,14 @@
                 }
             }
         },
-        "/v1/seller/loginconfirm": {
-            "post": {
-                "description": "This api login confirm a seller",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Seller"
-                ],
-                "summary": "Login confirm a seller",
-                "parameters": [
-                    {
-                        "description": "seller",
-                        "name": "seller",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.LoginByGmailRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/loginpassword": {
-            "post": {
-                "description": "This api login a seller",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Seller"
-                ],
-                "summary": "Login  a seller",
-                "parameters": [
-                    {
-                        "description": "seller",
-                        "name": "seller",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SellerLoginRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/register": {
-            "post": {
-                "description": "This api register a seller",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Seller"
-                ],
-                "summary": "Register a seller",
-                "parameters": [
-                    {
-                        "description": "seller",
-                        "name": "seller",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SellerGmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/registercomfirm": {
-            "post": {
-                "description": "This api register confirm a seller",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Seller"
-                ],
-                "summary": "Register Confirm a seller",
-                "parameters": [
-                    {
-                        "description": "seller",
-                        "name": "seller",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SellerRConfirm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/resetconfirm": {
-            "put": {
-                "description": "This api reset password confirm a seller",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Seller"
-                ],
-                "summary": "Confirm reset password a seller",
-                "parameters": [
-                    {
-                        "description": "seller",
-                        "name": "seller",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SellerPasswordConfirm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/resetpassword": {
-            "put": {
-                "description": "This api reset a password a seller",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Seller"
-                ],
-                "summary": "Reset a password a seller",
-                "parameters": [
-                    {
-                        "description": "seller",
-                        "name": "seller",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SellerGmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/seller/update/{id}": {
+        "/v1/student/update": {
             "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for updating a seller by ID",
+                "description": "API for Updating studentes",
                 "consumes": [
                     "application/json"
                 ],
@@ -2668,24 +1929,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "seller"
+                    "student"
                 ],
-                "summary": "Update a seller by ID",
+                "summary": "Update student",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "seller ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "seller",
-                        "name": "seller",
+                        "description": "student",
+                        "name": "student",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_service.UpdateSeller"
+                            "$ref": "#/definitions/student_service.UpdateStudent"
                         }
                     }
                 ],
@@ -2693,7 +1947,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.UpdateSeller"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -2711,14 +1971,14 @@
                 }
             }
         },
-        "/v1/shop/create": {
+        "/v1/superadmin/create": {
             "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for creating shop",
+                "description": "API for creating superadmines",
                 "consumes": [
                     "application/json"
                 ],
@@ -2726,17 +1986,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "shop"
+                    "superadmin"
                 ],
-                "summary": "Create shop",
+                "summary": "Create superadmin",
                 "parameters": [
                     {
-                        "description": "shop",
-                        "name": "shop",
+                        "description": "superadmin",
+                        "name": "superadmin",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_service.CreateShop"
+                            "$ref": "#/definitions/superadmin_service.CreateSuperadmin"
                         }
                     }
                 ],
@@ -2744,7 +2004,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.Shop"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -2762,14 +2028,14 @@
                 }
             }
         },
-        "/v1/shop/delete/{id}": {
+        "/v1/superadmin/delete/{id}": {
             "delete": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for deleting a shop by ID",
+                "description": "API for deleting superadmin",
                 "consumes": [
                     "application/json"
                 ],
@@ -2777,13 +2043,13 @@
                     "application/json"
                 ],
                 "tags": [
-                    "shop"
+                    "superadmin"
                 ],
-                "summary": "Delete a shop by ID",
+                "summary": "Delete superadmin",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "shop ID",
+                        "description": "id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2793,7 +2059,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -2811,14 +2083,14 @@
                 }
             }
         },
-        "/v1/shop/getbyid/{id}": {
+        "/v1/superadmin/get/{id}": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting a single shop by ID",
+                "description": "API for getting superadmin",
                 "consumes": [
                     "application/json"
                 ],
@@ -2826,13 +2098,13 @@
                     "application/json"
                 ],
                 "tags": [
-                    "shop"
+                    "superadmin"
                 ],
-                "summary": "Get a single shop by ID",
+                "summary": "Get superadmin",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "shop ID",
+                        "description": "id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2842,7 +2114,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.Shop"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -2860,14 +2138,14 @@
                 }
             }
         },
-        "/v1/shop/getlist": {
-            "get": {
+        "/v1/superadmin/update": {
+            "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting list of shops",
+                "description": "API for Updating superadmines",
                 "consumes": [
                     "application/json"
                 ],
@@ -2875,14 +2153,238 @@
                     "application/json"
                 ],
                 "tags": [
-                    "shop"
+                    "superadmin"
                 ],
-                "summary": "Get list of shops",
+                "summary": "Update superadmin",
+                "parameters": [
+                    {
+                        "description": "superadmin",
+                        "name": "superadmin",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/superadmin_service.UpdateSuperadmin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/support_teacher/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for creating support_teacheres",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "support_teacher"
+                ],
+                "summary": "Create support_teacher",
+                "parameters": [
+                    {
+                        "description": "support_teacher",
+                        "name": "support_teacher",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/support_teacher_service.CreateSupportTeacher"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/support_teacher/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for deleting support_teacher",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "support_teacher"
+                ],
+                "summary": "Delete support_teacher",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "shops",
-                        "name": "shop",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/support_teacher/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for getting support_teacher",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "support_teacher"
+                ],
+                "summary": "Get support_teacher",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/support_teacher/getall": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API for getting all support_teacheres",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "support_teacher"
+                ],
+                "summary": "Get all support_teacheres",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
                         "in": "query"
                     },
                     {
@@ -2902,7 +2404,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.GetListShopResponse"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -2920,14 +2428,14 @@
                 }
             }
         },
-        "/v1/shop/update/{id}": {
+        "/v1/support_teacher/update": {
             "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for updating a shop by ID",
+                "description": "API for Updating support_teacheres",
                 "consumes": [
                     "application/json"
                 ],
@@ -2935,24 +2443,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "shop"
+                    "support_teacher"
                 ],
-                "summary": "Update a shop by ID",
+                "summary": "Update support_teacher",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "shop ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "shop",
-                        "name": "shop",
+                        "description": "support_teacher",
+                        "name": "support_teacher",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_service.UpdateShop"
+                            "$ref": "#/definitions/support_teacher_service.UpdateSupportTeacher"
                         }
                     }
                 ],
@@ -2960,53 +2461,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.Shop"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
                             "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/systemuser/login": {
-            "post": {
-                "description": "This api login a systemuser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "SystemUser"
-                ],
-                "summary": "Login  a systemuser",
-                "parameters": [
-                    {
-                        "description": "systemuser",
-                        "name": "systemuser",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SystemUserGmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
                         }
                     },
                     "400": {
@@ -3030,326 +2485,14 @@
                 }
             }
         },
-        "/v1/systemuser/loginconfirm": {
-            "post": {
-                "description": "This api login confirm a systemuser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "SystemUser"
-                ],
-                "summary": "Login confirm a systemuser",
-                "parameters": [
-                    {
-                        "description": "systemuser",
-                        "name": "systemuser",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.LoginByGmailRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/systemuser/loginpassword": {
-            "post": {
-                "description": "This api login a systemuser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "SystemUser"
-                ],
-                "summary": "Login  a systemuser",
-                "parameters": [
-                    {
-                        "description": "systemuser",
-                        "name": "customer",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SystemUserLoginRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/systemuser/register": {
-            "post": {
-                "description": "This api register a systemuser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "SystemUser"
-                ],
-                "summary": "Register a systemuser",
-                "parameters": [
-                    {
-                        "description": "systemuser",
-                        "name": "systemuser",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SystemUserGmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/systemuser/registercomfirm": {
-            "post": {
-                "description": "This api register confirm a systemuser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "SystemUser"
-                ],
-                "summary": "Register Confirm a systemuser",
-                "parameters": [
-                    {
-                        "description": "systemuser",
-                        "name": "systemuser",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SystemUserRConfirm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/systemuser/resetconfirm": {
-            "put": {
-                "description": "This api reset password confirm a systemuser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "SystemUser"
-                ],
-                "summary": "Confirm reset password a systemuser",
-                "parameters": [
-                    {
-                        "description": "systemuser",
-                        "name": "systemuser",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SystemUserPasswordConfirm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/systemuser/resetpassword": {
-            "put": {
-                "description": "This api reset a password a systemuser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "SystemUser"
-                ],
-                "summary": "Reset a password a systemuser",
-                "parameters": [
-                    {
-                        "description": "systemuser",
-                        "name": "systemuser",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/auth_service.SystemUserGmailCheckRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/user/create": {
+        "/v1/teacher/create": {
             "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for creating user",
+                "description": "API for creating teacheres",
                 "consumes": [
                     "application/json"
                 ],
@@ -3357,17 +2500,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "teacher"
                 ],
-                "summary": "Create user",
+                "summary": "Create teacher",
                 "parameters": [
                     {
-                        "description": "user",
-                        "name": "order",
+                        "description": "teacher",
+                        "name": "teacher",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_service.CreateUs"
+                            "$ref": "#/definitions/teacher_service.CreateTeacher"
                         }
                     }
                 ],
@@ -3375,7 +2518,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.CreateUs"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -3393,14 +2542,14 @@
                 }
             }
         },
-        "/v1/user/delete/{id}": {
+        "/v1/teacher/delete/{id}": {
             "delete": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for deleting a user by ID",
+                "description": "API for deleting teacher",
                 "consumes": [
                     "application/json"
                 ],
@@ -3408,13 +2557,13 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "teacher"
                 ],
-                "summary": "Delete a user by ID",
+                "summary": "Delete teacher",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "user ID",
+                        "description": "id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3423,6 +2572,12 @@
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseError"
                         }
@@ -3442,14 +2597,14 @@
                 }
             }
         },
-        "/v1/user/getbyid/{id}": {
+        "/v1/teacher/get/{id}": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting a single user by ID",
+                "description": "API for getting teacher",
                 "consumes": [
                     "application/json"
                 ],
@@ -3457,13 +2612,13 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "teacher"
                 ],
-                "summary": "Get a single user by ID",
+                "summary": "Get teacher",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "user ID",
+                        "description": "id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3473,7 +2628,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -3491,14 +2652,14 @@
                 }
             }
         },
-        "/v1/user/getlist": {
+        "/v1/teacher/getall": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for getting list user",
+                "description": "API for getting all teacheres",
                 "consumes": [
                     "application/json"
                 ],
@@ -3506,14 +2667,14 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "teacher"
                 ],
-                "summary": "Get List user",
+                "summary": "Get all teacheres",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "system_users",
-                        "name": "system_user",
+                        "description": "search",
+                        "name": "search",
                         "in": "query"
                     },
                     {
@@ -3533,7 +2694,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.GetListUsResponse"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -3551,14 +2718,14 @@
                 }
             }
         },
-        "/v1/user/update/{id}": {
+        "/v1/teacher/update": {
             "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "API for updating a user by ID",
+                "description": "API for Updating teacheres",
                 "consumes": [
                     "application/json"
                 ],
@@ -3566,24 +2733,17 @@
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "teacher"
                 ],
-                "summary": "Update a user by ID",
+                "summary": "Update teacher",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "user ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "user",
-                        "name": "category",
+                        "description": "teacher",
+                        "name": "teacher",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_service.UpdateUs"
+                            "$ref": "#/definitions/teacher_service.UpdateTeacher"
                         }
                     }
                 ],
@@ -3591,7 +2751,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_service.Us"
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
                         }
                     },
                     "404": {
@@ -3611,229 +2777,304 @@
         }
     },
     "definitions": {
-        "auth_service.CustomerPasswordConfirm": {
+        "administrator_service.CreateAdministrator": {
             "type": "object",
             "properties": {
-                "gmail": {
+                "birthday": {
                     "type": "string"
                 },
-                "otp": {
+                "branch_id": {
                     "type": "string"
                 },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.GmailCheckRequest": {
-            "type": "object",
-            "properties": {
-                "gmail": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.LoginByGmailRequest": {
-            "type": "object",
-            "properties": {
-                "gmail": {
+                "email": {
                     "type": "string"
                 },
-                "otp": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.LoginRequest": {
-            "type": "object",
-            "properties": {
-                "gmail": {
+                "end_working": {
                     "type": "string"
                 },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.RConfirm": {
-            "type": "object",
-            "properties": {
-                "date_of_birth": {
+                "fullname": {
                     "type": "string"
                 },
                 "gender": {
                     "type": "string"
                 },
-                "gmail": {
+                "phone": {
                     "type": "string"
                 },
-                "language": {
+                "salary": {
+                    "type": "number"
+                },
+                "start_working": {
                     "type": "string"
                 },
-                "otp": {
-                    "type": "string"
-                },
-                "password": {
+                "user_password": {
                     "type": "string"
                 }
             }
         },
-        "auth_service.SellerGmailCheckRequest": {
+        "administrator_service.UpdateAdministrator": {
             "type": "object",
             "properties": {
-                "gmail": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.SellerLoginRequest": {
-            "type": "object",
-            "properties": {
-                "gmail": {
+                "birthday": {
                     "type": "string"
                 },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.SellerPasswordConfirm": {
-            "type": "object",
-            "properties": {
-                "gmail": {
+                "branch_id": {
                     "type": "string"
                 },
-                "otp": {
+                "email": {
                     "type": "string"
                 },
-                "password": {
+                "end_working": {
                     "type": "string"
-                }
-            }
-        },
-        "auth_service.SellerRConfirm": {
-            "type": "object",
-            "properties": {
+                },
+                "fullname": {
+                    "type": "string"
+                },
                 "gender": {
                     "type": "string"
-                },
-                "gmail": {
-                    "type": "string"
-                },
-                "language": {
-                    "type": "string"
-                },
-                "otp": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.SystemUserGmailCheckRequest": {
-            "type": "object",
-            "properties": {
-                "gmail": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.SystemUserLoginRequest": {
-            "type": "object",
-            "properties": {
-                "gmail": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.SystemUserPasswordConfirm": {
-            "type": "object",
-            "properties": {
-                "gmail": {
-                    "type": "string"
-                },
-                "otp": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "auth_service.SystemUserRConfirm": {
-            "type": "object",
-            "properties": {
-                "gmail": {
-                    "type": "string"
-                },
-                "otp": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
-                }
-            }
-        },
-        "catalog_service.CreateCategory": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "name_en": {
-                    "type": "string"
-                },
-                "name_ru": {
-                    "type": "string"
-                },
-                "name_uz": {
-                    "type": "string"
-                },
-                "order_no": {
-                    "type": "integer"
-                },
-                "parent_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "catalog_service.UpdateCategory": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
                 },
                 "id": {
                     "type": "string"
                 },
-                "name_en": {
+                "phone": {
                     "type": "string"
                 },
-                "name_ru": {
-                    "type": "string"
+                "salary": {
+                    "type": "number"
                 },
-                "name_uz": {
-                    "type": "string"
-                },
-                "order_no": {
-                    "type": "integer"
-                },
-                "parent_id": {
+                "start_working": {
                     "type": "string"
                 }
             }
         },
-        "models.Response": {
+        "branch_service.CreateBranch": {
             "type": "object",
             "properties": {
-                "id": {}
+                "branch_location": {
+                    "type": "string"
+                },
+                "branch_name": {
+                    "type": "string"
+                },
+                "close_time": {
+                    "type": "string"
+                },
+                "open_time": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "branch_service.UpdateBranch": {
+            "type": "object",
+            "properties": {
+                "branch_location": {
+                    "type": "string"
+                },
+                "branch_name": {
+                    "type": "string"
+                },
+                "close_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "open_time": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "event_registrate_service.CreateEventRegistrate": {
+            "type": "object",
+            "properties": {
+                "event_id": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "event_registrate_service.UpdateEventRegistrate": {
+            "type": "object",
+            "properties": {
+                "event_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "event_service.CreateEvent": {
+            "type": "object",
+            "properties": {
+                "branch_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "topic": {
+                    "type": "string"
+                }
+            }
+        },
+        "event_service.UpdateEvent": {
+            "type": "object",
+            "properties": {
+                "branch_id": {
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "topic": {
+                    "type": "string"
+                }
+            }
+        },
+        "group_service.CreateGroup": {
+            "type": "object",
+            "properties": {
+                "branch_id": {
+                    "type": "string"
+                },
+                "finished_at": {
+                    "type": "string"
+                },
+                "group_level": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "started_at": {
+                    "type": "string"
+                },
+                "support_teacher_id": {
+                    "type": "string"
+                },
+                "teacher_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "group_service.UpdateGroup": {
+            "type": "object",
+            "properties": {
+                "branch_id": {
+                    "type": "string"
+                },
+                "finished_at": {
+                    "type": "string"
+                },
+                "group_level": {
+                    "type": "string"
+                },
+                "group_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "started_at": {
+                    "type": "string"
+                },
+                "support_teacher_id": {
+                    "type": "string"
+                },
+                "teacher_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "manager_service.CreateManager": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "type": "string"
+                },
+                "branch_id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "end_working": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "number"
+                },
+                "start_working": {
+                    "type": "string"
+                },
+                "user_password": {
+                    "type": "string"
+                }
+            }
+        },
+        "manager_service.UpdateManager": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "type": "string"
+                },
+                "branch_id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "end_working": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "number"
+                },
+                "start_working": {
+                    "type": "string"
+                }
             }
         },
         "models.ResponseError": {
@@ -3842,400 +3083,109 @@
                 "error": {}
             }
         },
-        "models.ResponseSuccess": {
+        "student_service.CreateStudent": {
             "type": "object",
             "properties": {
-                "data": {},
-                "metadata": {}
-            }
-        },
-        "order_product.CreateOrderProducts": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "discount_price": {
-                    "type": "number"
-                },
-                "order_id": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "product_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "order_status_notes.CreateStatusRequest": {
-            "type": "object",
-            "properties": {
-                "order_id": {
-                    "type": "string"
-                },
-                "reason": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "order_status_notes.OrderPrimaryStatusKeyRequest": {
-            "type": "object",
-            "properties": {
-                "order_id": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                }
-            }
-        },
-        "orders_service.CreateOrder": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "number"
-                },
-                "courier_id": {
-                    "type": "string"
-                },
-                "courier_name": {
-                    "type": "string"
-                },
-                "courier_phone": {
-                    "type": "string"
-                },
-                "customer_id": {
-                    "type": "string"
-                },
-                "customer_name": {
-                    "type": "string"
-                },
-                "customer_phone": {
-                    "type": "string"
-                },
-                "delivery_price": {
-                    "type": "number"
-                },
-                "discount_amount": {
-                    "type": "number"
-                },
-                "external_id": {
-                    "type": "string"
-                },
-                "paid": {
-                    "type": "boolean"
-                },
-                "payment_type": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "to_address": {
-                    "type": "string"
-                },
-                "to_location": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
-        "product_service.CreateProduct": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "category_id": {
-                    "type": "string"
-                },
-                "description_en": {
-                    "type": "string"
-                },
-                "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
-                    "type": "string"
-                },
-                "discount_percent": {
-                    "type": "number"
-                },
-                "in_price": {
-                    "type": "number"
-                },
-                "left_count": {
-                    "type": "integer"
-                },
-                "name_en": {
-                    "type": "string"
-                },
-                "name_ru": {
-                    "type": "string"
-                },
-                "name_uz": {
-                    "type": "string"
-                },
-                "order_no": {
-                    "type": "integer"
-                },
-                "out_price": {
-                    "type": "number"
-                }
-            }
-        },
-        "product_service.UpdateProduct": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "category_id": {
-                    "type": "string"
-                },
-                "description_en": {
-                    "type": "string"
-                },
-                "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
-                    "type": "string"
-                },
-                "discount_percent": {
-                    "type": "number"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "in_price": {
-                    "type": "number"
-                },
-                "left_count": {
-                    "type": "integer"
-                },
-                "name_en": {
-                    "type": "string"
-                },
-                "name_ru": {
-                    "type": "string"
-                },
-                "name_uz": {
-                    "type": "string"
-                },
-                "order_no": {
-                    "type": "integer"
-                },
-                "out_price": {
-                    "type": "number"
-                }
-            }
-        },
-        "review_service.CreateReview": {
-            "type": "object",
-            "properties": {
-                "customer_id": {
-                    "type": "string"
-                },
-                "order_id": {
-                    "type": "string"
-                },
-                "product_id": {
-                    "type": "string"
-                },
-                "rating": {
-                    "type": "number"
-                },
-                "text": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.Branch": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "address": {
-                    "type": "string"
-                },
-                "close_time": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "open_time": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.CreateBranch": {
-            "type": "object",
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "address": {
-                    "type": "string"
-                },
-                "close_time": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "open_time": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.CreateCustomer": {
-            "type": "object",
-            "properties": {
-                "date_of_birth": {
+                "birthday": {
                     "type": "string"
                 },
                 "email": {
                     "type": "string"
                 },
-                "firstname": {
+                "finished_at": {
+                    "type": "string"
+                },
+                "fullname": {
                     "type": "string"
                 },
                 "gender": {
                     "type": "string"
                 },
-                "languange": {
+                "group_id": {
                     "type": "string"
                 },
-                "lastname": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.CreateSeller": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
+                "paid_sum": {
+                    "type": "number"
                 },
                 "phone": {
                     "type": "string"
                 },
-                "shop_id": {
+                "started_at": {
+                    "type": "string"
+                },
+                "user_password": {
                     "type": "string"
                 }
             }
         },
-        "user_service.CreateShop": {
+        "student_service.UpdateStudent": {
             "type": "object",
             "properties": {
-                "currency": {
-                    "type": "string"
-                },
-                "description_en": {
-                    "type": "string"
-                },
-                "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name_en": {
-                    "type": "string"
-                },
-                "name_ru": {
-                    "type": "string"
-                },
-                "name_uz": {
-                    "type": "string"
-                },
-                "payment_types": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.CreateUs": {
-            "type": "object",
-            "properties": {
-                "gmail": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.Customer": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "date_of_birth": {
+                "birthday": {
                     "type": "string"
                 },
                 "email": {
                     "type": "string"
                 },
-                "firstname": {
+                "finished_at": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "group_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "paid_sum": {
+                    "type": "number"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "started_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "superadmin_service.CreateSuperadmin": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "user_password": {
+                    "type": "string"
+                }
+            }
+        },
+        "superadmin_service.UpdateSuperadmin": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullname": {
                     "type": "string"
                 },
                 "gender": {
@@ -4244,324 +3194,171 @@
                 "id": {
                     "type": "string"
                 },
-                "languange": {
-                    "type": "string"
-                },
-                "lastname": {
-                    "type": "string"
-                },
                 "phone": {
                     "type": "string"
-                },
-                "updated_at": {
+                }
+            }
+        },
+        "support_teacher_service.CreateSupportTeacher": {
+            "type": "object",
+            "properties": {
+                "birthday": {
                     "type": "string"
-                }
-            }
-        },
-        "user_service.GetListBranchResponse": {
-            "type": "object",
-            "properties": {
-                "branches": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/user_service.Branch"
-                    }
                 },
-                "count": {
-                    "type": "integer"
-                }
-            }
-        },
-        "user_service.GetListCustomerResponse": {
-            "type": "object",
-            "properties": {
-                "Count": {
-                    "type": "integer"
-                },
-                "Customers": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/user_service.Customer"
-                    }
-                }
-            }
-        },
-        "user_service.GetListSellerResponse": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "sellers": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/user_service.Seller"
-                    }
-                }
-            }
-        },
-        "user_service.GetListShopResponse": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "shops": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/user_service.Shop"
-                    }
-                }
-            }
-        },
-        "user_service.GetListUsResponse": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/user_service.Us"
-                    }
-                }
-            }
-        },
-        "user_service.Seller": {
-            "type": "object",
-            "properties": {
-                "created_at": {
+                "branch_id": {
                     "type": "string"
                 },
                 "email": {
                     "type": "string"
                 },
-                "id": {
+                "end_working": {
                     "type": "string"
                 },
-                "name": {
+                "fullname": {
                     "type": "string"
                 },
-                "phone": {
+                "gender": {
                     "type": "string"
                 },
-                "shop_id": {
-                    "type": "string"
+                "ielts_attempts_count": {
+                    "type": "integer"
                 },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.Shop": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "currency": {
-                    "type": "string"
-                },
-                "description_en": {
-                    "type": "string"
-                },
-                "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name_en": {
-                    "type": "string"
-                },
-                "name_ru": {
-                    "type": "string"
-                },
-                "name_uz": {
-                    "type": "string"
-                },
-                "payment_types": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "ielts_score": {
+                    "type": "number"
                 },
                 "phone": {
                     "type": "string"
                 },
-                "updated_at": {
+                "salary": {
+                    "type": "number"
+                },
+                "start_working": {
+                    "type": "string"
+                },
+                "user_password": {
                     "type": "string"
                 }
             }
         },
-        "user_service.UpdateBranch": {
+        "support_teacher_service.UpdateSupportTeacher": {
             "type": "object",
             "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "address": {
+                "birthday": {
                     "type": "string"
                 },
-                "close_time": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "open_time": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.UpdateCustomer": {
-            "type": "object",
-            "properties": {
-                "date_of_birth": {
+                "branch_id": {
                     "type": "string"
                 },
                 "email": {
                     "type": "string"
                 },
-                "firstname": {
+                "end_working": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "gender": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "languange": {
-                    "type": "string"
+                "ielts_attempts_count": {
+                    "type": "integer"
                 },
-                "lastname": {
-                    "type": "string"
+                "ielts_score": {
+                    "type": "number"
                 },
                 "phone": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "number"
+                },
+                "start_working": {
                     "type": "string"
                 }
             }
         },
-        "user_service.UpdateSeller": {
+        "teacher_service.CreateTeacher": {
             "type": "object",
             "properties": {
+                "birthday": {
+                    "type": "string"
+                },
+                "branch_id": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
-                "id": {
+                "end_working": {
                     "type": "string"
                 },
-                "name": {
+                "fullname": {
                     "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "ielts_attempts_count": {
+                    "type": "integer"
+                },
+                "ielts_score": {
+                    "type": "number"
                 },
                 "phone": {
                     "type": "string"
                 },
-                "shop_id": {
+                "salary": {
+                    "type": "number"
+                },
+                "start_working": {
+                    "type": "string"
+                },
+                "user_password": {
                     "type": "string"
                 }
             }
         },
-        "user_service.UpdateShop": {
+        "teacher_service.UpdateTeacher": {
             "type": "object",
             "properties": {
-                "currency": {
+                "birthday": {
                     "type": "string"
                 },
-                "description_en": {
+                "branch_id": {
                     "type": "string"
                 },
-                "description_ru": {
+                "email": {
                     "type": "string"
                 },
-                "description_uz": {
+                "end_working": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "gender": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "location": {
-                    "type": "string"
+                "ielts_attempts_count": {
+                    "type": "integer"
                 },
-                "name_en": {
-                    "type": "string"
-                },
-                "name_ru": {
-                    "type": "string"
-                },
-                "name_uz": {
-                    "type": "string"
-                },
-                "payment_types": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "ielts_score": {
+                    "type": "number"
                 },
                 "phone": {
                     "type": "string"
                 },
-                "slug": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.UpdateUs": {
-            "type": "object",
-            "properties": {
-                "gmail": {
-                    "type": "string"
+                "salary": {
+                    "type": "number"
                 },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
-                }
-            }
-        },
-        "user_service.Us": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "gmail": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
-                },
-                "updated_at": {
+                "start_working": {
                     "type": "string"
                 }
             }
