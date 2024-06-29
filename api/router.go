@@ -112,10 +112,39 @@ func New(cnf Config) *gin.Engine {
 	r.PUT("/v1/teacher/update", handler.UpdateTeacher)
 	r.DELETE("/v1/teacher/delete/:id", handler.DeleteTeacher)
 
+	r.GET("/v1/schedule/getall", handler.GetAllSchedule)
+	r.GET("/v1/schedule/get/:id", handler.GetScheduleById)
+	r.POST("/v1/schedule/create", handler.CreateSchedule)
+	r.PUT("/v1/schedule/update", handler.UpdateSchedule)
+	r.DELETE("/v1/schedule/delete/:id", handler.DeleteSchedule)
+
+	r.GET("/v1/journal/getall", handler.GetAllJournal)
+	r.GET("/v1/journal/get/:id", handler.GetJournalById)
+	r.POST("/v1/journal/create", handler.CreateJournal)
+	r.PUT("/v1/journal/update", handler.UpdateJournal)
+	r.DELETE("/v1/journal/delete/:id", handler.DeleteJournal)
+
+	r.GET("/v1/lesson/getall", handler.GetAllLesson)
+	r.GET("/v1/lesson/get/:id", handler.GetLessonById)
+	r.POST("/v1/lesson/create", handler.CreateLesson)
+	r.PUT("/v1/lesson/update", handler.UpdateLesson)
+	r.DELETE("/v1/lesson/delete/:id", handler.DeleteLesson)
+
+	r.GET("/v1/perfomance/getall", handler.GetAllPerfomance)
+	r.GET("/v1/perfomance/get/:id", handler.GetPerfomanceById)
+	r.POST("/v1/perfomance/create", handler.CreatePerfomance)
+	r.PUT("/v1/perfomance/update", handler.UpdatePerfomance)
+	r.DELETE("/v1/perfomance/delete/:id", handler.DeletePerfomance)
+
+	r.POST("/v1/teacher/login", handler.TeacherLogin)
+	r.POST("/v1/teacher/register", handler.TeacherRegister)
+	r.POST("/v1/teacher/register-confirm", handler.TeacherRegisterConfirm)
+
 	url := ginSwagger.URL("swagger/doc.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	return r
+
 }
 
 // func authMiddleware(c *gin.Context) {

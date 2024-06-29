@@ -2,6 +2,7 @@ package handler
 
 import (
 	"crm_api_gateway/genproto/teacher_service"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -149,4 +150,104 @@ func (h *handler) DeleteTeacher(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, resp)
+}
+
+// TeacherLogin godoc
+// @Router       /v1/teacher/login [POST]
+// @Summary      Teacher login
+// @Description  Teacher login
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        login body teacher_service.TeacherLoginRequest true "login"
+// @Success      201  {object}  teacher_service.TeacherLoginResponse
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h *handler) TeacherLogin(c *gin.Context) {
+	loginReq := &teacher_service.TeacherLoginRequest{}
+
+	if err := c.ShouldBindJSON(&loginReq); err != nil {
+		handleGrpcErrWithDescription(c, h.log, err, "error while binding body")
+		return
+	}
+	fmt.Println("loginReq: ", loginReq)
+
+	//TODO: need validate login & password
+
+	loginResp, err := h.grpcClient.TeacherService().TeacherLogin(c.Request.Context(), loginReq)
+	if err != nil {
+		handleGrpcErrWithDescription(c, h.log, err, "unauthorized")
+		return
+	}
+
+	handleGrpcErrWithDescription(c, h.log, nil, "Succes")
+	c.JSON(http.StatusOK, loginResp)
+
+}
+
+// TeacherRegister godoc
+// @Router       /v1/teacher/register [POST]
+// @Summary      Teacher register
+// @Description  Teacher register
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        register body teacher_service.TeacherRegisterRequest true "register"
+// @Success      201  {object}  models.Response
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h *handler) TeacherRegister(c *gin.Context) {
+	loginReq := &teacher_service.TeacherRegisterRequest{}
+
+	if err := c.ShouldBindJSON(&loginReq); err != nil {
+		handleGrpcErrWithDescription(c, h.log, err, "error while binding body")
+		return
+	}
+	fmt.Println("loginReq: ", loginReq)
+
+	//TODO: need validate for (gmail.com or mail.ru) & check if email is not exists
+
+	resp, err := h.grpcClient.TeacherService().TeacherRegister(c.Request.Context(), loginReq)
+	if err != nil {
+		handleGrpcErrWithDescription(c, h.log, err, "error while registr teacher")
+		return
+	}
+
+	handleGrpcErrWithDescription(c, h.log, nil, "Otp sent successfull")
+	c.JSON(http.StatusOK, resp)
+}
+
+// TeacherRegister godoc
+// @Router       /v1/teacher/register-confirm [POST]
+// @Summary      Teacher register
+// @Description  Teacher register
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        register body teacher_service.TeacherRegisterConfRequest true "register"
+// @Success      201  {object}  teacher_service.TeacherLoginResponse
+// @Failure      400  {object}  models.Response
+// @Failure      404  {object}  models.Response
+// @Failure      500  {object}  models.Response
+func (h *handler) TeacherRegisterConfirm(c *gin.Context) {
+	req := &teacher_service.TeacherRegisterConfRequest{}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		handleGrpcErrWithDescription(c, h.log, err, "error while binding body")
+		return
+	}
+	fmt.Println("req: ", req)
+
+	//TODO: need validate login & password
+
+	confResp, err := h.grpcClient.TeacherService().TeacherRegisterConfirm(c.Request.Context(), req)
+	if err != nil {
+		handleGrpcErrWithDescription(c, h.log, err, "error while confirming")
+		return
+	}
+
+	handleGrpcErrWithDescription(c, h.log, nil, "Succes")
+	c.JSON(http.StatusOK, confResp)
 }

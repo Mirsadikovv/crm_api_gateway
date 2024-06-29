@@ -149,6 +149,42 @@ definitions:
       teacher_id:
         type: string
     type: object
+  journal_service.CreateJournal:
+    properties:
+      date_of_lesson:
+        type: string
+      schedule_id:
+        type: string
+    type: object
+  journal_service.UpdateJournal:
+    properties:
+      date_of_lesson:
+        type: string
+      id:
+        type: string
+      schedule_id:
+        type: string
+    type: object
+  lesson_service.CreateLesson:
+    properties:
+      links:
+        type: string
+      theme:
+        type: string
+      type_of_group:
+        type: string
+    type: object
+  lesson_service.UpdateLesson:
+    properties:
+      id:
+        type: string
+      links:
+        type: string
+      theme:
+        type: string
+      type_of_group:
+        type: string
+    type: object
   manager_service.CreateManager:
     properties:
       birthday:
@@ -195,9 +231,85 @@ definitions:
       start_working:
         type: string
     type: object
+  models.Response:
+    properties:
+      id: {}
+    type: object
   models.ResponseError:
     properties:
       error: {}
+    type: object
+  perfomance_service.CreatePerfomance:
+    properties:
+      attended:
+        type: boolean
+      schedule_id:
+        type: string
+      student_id:
+        type: string
+      task_score:
+        type: number
+    type: object
+  perfomance_service.UpdatePerfomance:
+    properties:
+      attended:
+        type: boolean
+      id:
+        type: string
+      schedule_id:
+        type: string
+      student_id:
+        type: string
+      task_score:
+        type: number
+    type: object
+  schedule_service.CreateSchedule:
+    properties:
+      classroom:
+        type: string
+      deadline:
+        type: string
+      end_time:
+        type: string
+      group_id:
+        type: string
+      group_name:
+        type: string
+      lesson_id:
+        type: string
+      score:
+        type: number
+      start_time:
+        type: string
+      task:
+        type: string
+      type_of_group:
+        type: string
+    type: object
+  schedule_service.UpdateSchedule:
+    properties:
+      classroom:
+        type: string
+      deadline:
+        type: string
+      end_time:
+        type: string
+      group_id:
+        type: string
+      group_name:
+        type: string
+      id:
+        type: string
+      lesson_id:
+        type: string
+      score:
+        type: number
+      start_time:
+        type: string
+      task:
+        type: string
+      type_of_group:
+        type: string
     type: object
   student_service.CreateStudent:
     properties:
@@ -354,6 +466,36 @@ definitions:
       start_working:
         type: string
       user_password:
+        type: string
+    type: object
+  teacher_service.TeacherLoginRequest:
+    properties:
+      user_login:
+        type: string
+      user_password:
+        type: string
+    type: object
+  teacher_service.TeacherLoginResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  teacher_service.TeacherRegisterConfRequest:
+    properties:
+      Teacher:
+        items:
+          $ref: '#/definitions/teacher_service.CreateTeacher'
+        type: array
+      mail:
+        type: string
+      otp:
+        type: string
+    type: object
+  teacher_service.TeacherRegisterRequest:
+    properties:
+      mail:
         type: string
     type: object
   teacher_service.UpdateTeacher:
@@ -1267,6 +1409,374 @@ paths:
       summary: Update group
       tags:
       - group
+  /v1/journal/create:
+    post:
+      consumes:
+      - application/json
+      description: API for creating journales
+      parameters:
+      - description: journal
+        in: body
+        name: journal
+        required: true
+        schema:
+          $ref: '#/definitions/journal_service.CreateJournal'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Create journal
+      tags:
+      - journal
+  /v1/journal/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: API for deleting journal
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete journal
+      tags:
+      - journal
+  /v1/journal/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: API for getting journal
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get journal
+      tags:
+      - journal
+  /v1/journal/getall:
+    get:
+      consumes:
+      - application/json
+      description: API for getting all journales
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all journales
+      tags:
+      - journal
+  /v1/journal/update:
+    put:
+      consumes:
+      - application/json
+      description: API for Updating journales
+      parameters:
+      - description: journal
+        in: body
+        name: journal
+        required: true
+        schema:
+          $ref: '#/definitions/journal_service.UpdateJournal'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Update journal
+      tags:
+      - journal
+  /v1/lesson/create:
+    post:
+      consumes:
+      - application/json
+      description: API for creating lessones
+      parameters:
+      - description: lesson
+        in: body
+        name: lesson
+        required: true
+        schema:
+          $ref: '#/definitions/lesson_service.CreateLesson'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Create lesson
+      tags:
+      - lesson
+  /v1/lesson/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: API for deleting lesson
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete lesson
+      tags:
+      - lesson
+  /v1/lesson/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: API for getting lesson
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get lesson
+      tags:
+      - lesson
+  /v1/lesson/getall:
+    get:
+      consumes:
+      - application/json
+      description: API for getting all lessones
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all lessones
+      tags:
+      - lesson
+  /v1/lesson/update:
+    put:
+      consumes:
+      - application/json
+      description: API for Updating lessones
+      parameters:
+      - description: lesson
+        in: body
+        name: lesson
+        required: true
+        schema:
+          $ref: '#/definitions/lesson_service.UpdateLesson'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Update lesson
+      tags:
+      - lesson
   /v1/manager/create:
     post:
       consumes:
@@ -1451,6 +1961,374 @@ paths:
       summary: Update manager
       tags:
       - manager
+  /v1/perfomance/create:
+    post:
+      consumes:
+      - application/json
+      description: API for creating perfomancees
+      parameters:
+      - description: perfomance
+        in: body
+        name: perfomance
+        required: true
+        schema:
+          $ref: '#/definitions/perfomance_service.CreatePerfomance'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Create perfomance
+      tags:
+      - perfomance
+  /v1/perfomance/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: API for deleting perfomance
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete perfomance
+      tags:
+      - perfomance
+  /v1/perfomance/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: API for getting perfomance
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get perfomance
+      tags:
+      - perfomance
+  /v1/perfomance/getall:
+    get:
+      consumes:
+      - application/json
+      description: API for getting all perfomancees
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all perfomancees
+      tags:
+      - perfomance
+  /v1/perfomance/update:
+    put:
+      consumes:
+      - application/json
+      description: API for Updating perfomancees
+      parameters:
+      - description: perfomance
+        in: body
+        name: perfomance
+        required: true
+        schema:
+          $ref: '#/definitions/perfomance_service.UpdatePerfomance'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Update perfomance
+      tags:
+      - perfomance
+  /v1/schedule/create:
+    post:
+      consumes:
+      - application/json
+      description: API for creating schedulees
+      parameters:
+      - description: schedule
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/schedule_service.CreateSchedule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Create schedule
+      tags:
+      - schedule
+  /v1/schedule/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: API for deleting schedule
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete schedule
+      tags:
+      - schedule
+  /v1/schedule/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: API for getting schedule
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get schedule
+      tags:
+      - schedule
+  /v1/schedule/getall:
+    get:
+      consumes:
+      - application/json
+      description: API for getting all schedulees
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all schedulees
+      tags:
+      - schedule
+  /v1/schedule/update:
+    put:
+      consumes:
+      - application/json
+      description: API for Updating schedulees
+      parameters:
+      - description: schedule
+        in: body
+        name: schedule
+        required: true
+        schema:
+          $ref: '#/definitions/schedule_service.UpdateSchedule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Update schedule
+      tags:
+      - schedule
   /v1/student/create:
     post:
       consumes:
@@ -2109,6 +2987,108 @@ paths:
       summary: Get all teacheres
       tags:
       - teacher
+  /v1/teacher/login:
+    post:
+      consumes:
+      - application/json
+      description: Teacher login
+      parameters:
+      - description: login
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/teacher_service.TeacherLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/teacher_service.TeacherLoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Teacher login
+      tags:
+      - auth
+  /v1/teacher/register:
+    post:
+      consumes:
+      - application/json
+      description: Teacher register
+      parameters:
+      - description: register
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/teacher_service.TeacherRegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Teacher register
+      tags:
+      - auth
+  /v1/teacher/register-confirm:
+    post:
+      consumes:
+      - application/json
+      description: Teacher register
+      parameters:
+      - description: register
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/teacher_service.TeacherRegisterConfRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/teacher_service.TeacherLoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Teacher register
+      tags:
+      - auth
   /v1/teacher/update:
     put:
       consumes:
