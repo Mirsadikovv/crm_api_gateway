@@ -21,6 +21,12 @@ import (
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) CreateEventRegistrate(c *gin.Context) {
 	event_registrate := &event_registrate_service.CreateEventRegistrate{}
+
+	// if !validator.CheckDeadline() {
+	// 	handleGrpcErrWithDescription(c, h.log, errors.New("wrong gmail"), "error while validating gmail")
+	// 	return
+	// }
+
 	if err := c.ShouldBindJSON(&event_registrate); err != nil {
 		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
 		return

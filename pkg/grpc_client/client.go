@@ -78,9 +78,9 @@ func New(cfg config.Config) (*GrpcClient, error) {
 			"event_service":            event_service.NewEventServiceClient(connUser),
 			"event_registrate_service": event_registrate_service.NewEventRegistrateServiceClient(connUser),
 			"lesson_service":           lesson_service.NewLessonServiceClient(connSchedule),
-			"schedule_service":         schedule_service.NewScheduleServiceClient(connUser),
-			"journal_service":          journal_service.NewJournalServiceClient(connUser),
-			"perfomance_service":       perfomance_service.NewPerfomanceServiceClient(connUser),
+			"schedule_service":         schedule_service.NewScheduleServiceClient(connSchedule),
+			"journal_service":          journal_service.NewJournalServiceClient(connSchedule),
+			"perfomance_service":       perfomance_service.NewPerfomanceServiceClient(connSchedule),
 		},
 	}, nil
 }
