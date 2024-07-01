@@ -2,6 +2,7 @@ package handler
 
 import (
 	"crm_api_gateway/genproto/group_service"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,31 +23,41 @@ import (
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetAllGroup(c *gin.Context) {
-	group := &group_service.GetListGroupRequest{}
-
-	search := c.Query("search")
-
-	page, err := ParsePageQueryParam(c)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
-		return
-	}
-	limit, err := ParseLimitQueryParam(c)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
-		return
-	}
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
 
-	group.Search = search
-	group.Offset = int64(page)
-	group.Limit = int64(limit)
-
-	resp, err := h.grpcClient.GroupService().GetList(c.Request.Context(), group)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating group")
-		return
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		group := &group_service.GetListGroupRequest{}
+
+		search := c.Query("search")
+
+		page, err := ParsePageQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
+			return
+		}
+		limit, err := ParseLimitQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
+			return
+		}
+
+		group.Search = search
+		group.Offset = int64(page)
+		group.Limit = int64(limit)
+
+		resp, err := h.grpcClient.GroupService().GetList(c.Request.Context(), group)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating group")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can change group")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -62,18 +73,28 @@ func (h *handler) GetAllGroup(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) CreateGroup(c *gin.Context) {
-	group := &group_service.CreateGroup{}
-	if err := c.ShouldBindJSON(&group); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.GroupService().Create(c.Request.Context(), group)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating group")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" {
+
+		group := &group_service.CreateGroup{}
+		if err := c.ShouldBindJSON(&group); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.GroupService().Create(c.Request.Context(), group)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating group")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins and managers can change group")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -89,18 +110,28 @@ func (h *handler) CreateGroup(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) UpdateGroup(c *gin.Context) {
-	group := &group_service.UpdateGroup{}
-	if err := c.ShouldBindJSON(&group); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.GroupService().Update(c.Request.Context(), group)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while updating group")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		group := &group_service.UpdateGroup{}
+		if err := c.ShouldBindJSON(&group); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.GroupService().Update(c.Request.Context(), group)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while updating group")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can change group")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -116,15 +147,25 @@ func (h *handler) UpdateGroup(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetGroupById(c *gin.Context) {
-	id := c.Param("id")
-	group := &group_service.GroupPrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.GroupService().GetByID(c.Request.Context(), group)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while getting group")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		id := c.Param("id")
+		group := &group_service.GroupPrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.GroupService().GetByID(c.Request.Context(), group)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while getting group")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can change group")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -140,13 +181,23 @@ func (h *handler) GetGroupById(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) DeleteGroup(c *gin.Context) {
-	id := c.Param("id")
-	group := &group_service.GroupPrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.GroupService().Delete(c.Request.Context(), group)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while deleting group")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		id := c.Param("id")
+		group := &group_service.GroupPrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.GroupService().Delete(c.Request.Context(), group)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while deleting group")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can change group")
+	}
 }

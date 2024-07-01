@@ -4,7 +4,9 @@ import (
 	"crm_api_gateway/api/models"
 	"crm_api_gateway/config"
 	"crm_api_gateway/pkg/grpc_client"
+	"crm_api_gateway/pkg/jwt"
 	"crm_api_gateway/pkg/logger"
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -147,4 +149,26 @@ func ParseLimitQueryParam(c *gin.Context) (uint64, error) {
 		return 10, nil
 	}
 	return limit, nil
+}
+
+func getAuthInfo(c *gin.Context) (models.AuthInfo, error) {
+	accessToken := c.GetHeader("Authorization")
+	if accessToken == "" {
+		return models.AuthInfo{}, errors.New("unauthorized")
+	}
+
+	m, err := jwt.ExtractClaims(accessToken)
+	if err != nil {
+		return models.AuthInfo{}, err
+	}
+
+	role := m["user_role"].(string)
+	if !(role == config.STUDENT_ROLE || role == config.TEACHER_ROLE || role == config.MANAGER_ROLE || role == config.ADMINISTRATOR_ROLE || role == config.SUPERADMIN_ROLE || role == config.SUPPORT_TEACHER_ROLE) {
+		return models.AuthInfo{}, errors.New("unauthorized")
+	}
+
+	return models.AuthInfo{
+		UserID:   m["user_id"].(string),
+		UserRole: role,
+	}, nil
 }

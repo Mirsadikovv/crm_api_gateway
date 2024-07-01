@@ -2,6 +2,7 @@ package handler
 
 import (
 	"crm_api_gateway/genproto/branch_service"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,31 +23,41 @@ import (
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetAllBranch(c *gin.Context) {
-	branch := &branch_service.GetListBranchRequest{}
-
-	search := c.Query("search")
-
-	page, err := ParsePageQueryParam(c)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
-		return
-	}
-	limit, err := ParseLimitQueryParam(c)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
-		return
-	}
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
 
-	branch.Search = search
-	branch.Offset = int64(page)
-	branch.Limit = int64(limit)
-
-	resp, err := h.grpcClient.BranchService().GetList(c.Request.Context(), branch)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating branch")
-		return
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" {
+
+		branch := &branch_service.GetListBranchRequest{}
+
+		search := c.Query("search")
+
+		page, err := ParsePageQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
+			return
+		}
+		limit, err := ParseLimitQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
+			return
+		}
+
+		branch.Search = search
+		branch.Offset = int64(page)
+		branch.Limit = int64(limit)
+
+		resp, err := h.grpcClient.BranchService().GetList(c.Request.Context(), branch)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating branch")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins can change branch")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -62,18 +73,28 @@ func (h *handler) GetAllBranch(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) CreateBranch(c *gin.Context) {
-	branch := &branch_service.CreateBranch{}
-	if err := c.ShouldBindJSON(&branch); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.BranchService().Create(c.Request.Context(), branch)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating branch")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" {
+
+		branch := &branch_service.CreateBranch{}
+		if err := c.ShouldBindJSON(&branch); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.BranchService().Create(c.Request.Context(), branch)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating branch")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins can change branch")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -89,18 +110,28 @@ func (h *handler) CreateBranch(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) UpdateBranch(c *gin.Context) {
-	branch := &branch_service.UpdateBranch{}
-	if err := c.ShouldBindJSON(&branch); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.BranchService().Update(c.Request.Context(), branch)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while updating branch")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" {
+
+		branch := &branch_service.UpdateBranch{}
+		if err := c.ShouldBindJSON(&branch); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.BranchService().Update(c.Request.Context(), branch)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while updating branch")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins can change branch")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -116,15 +147,25 @@ func (h *handler) UpdateBranch(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetBranchById(c *gin.Context) {
-	id := c.Param("id")
-	branch := &branch_service.BranchPrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.BranchService().GetByID(c.Request.Context(), branch)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while getting branch")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" {
+
+		id := c.Param("id")
+		branch := &branch_service.BranchPrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.BranchService().GetByID(c.Request.Context(), branch)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while getting branch")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins can change branch")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -140,13 +181,24 @@ func (h *handler) GetBranchById(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) DeleteBranch(c *gin.Context) {
-	id := c.Param("id")
-	branch := &branch_service.BranchPrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.BranchService().Delete(c.Request.Context(), branch)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while deleting branch")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" {
+
+		id := c.Param("id")
+		branch := &branch_service.BranchPrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.BranchService().Delete(c.Request.Context(), branch)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while deleting branch")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins can change branch")
+	}
+
 }

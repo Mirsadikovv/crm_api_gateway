@@ -2,6 +2,7 @@ package handler
 
 import (
 	"crm_api_gateway/genproto/lesson_service"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,31 +23,41 @@ import (
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetAllLesson(c *gin.Context) {
-	lesson := &lesson_service.GetListLessonRequest{}
-
-	search := c.Query("search")
-
-	page, err := ParsePageQueryParam(c)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
-		return
-	}
-	limit, err := ParseLimitQueryParam(c)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
-		return
-	}
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
 
-	lesson.Search = search
-	lesson.Offset = int64(page)
-	lesson.Limit = int64(limit)
-
-	resp, err := h.grpcClient.LessonService().GetList(c.Request.Context(), lesson)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating lesson")
-		return
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		lesson := &lesson_service.GetListLessonRequest{}
+
+		search := c.Query("search")
+
+		page, err := ParsePageQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
+			return
+		}
+		limit, err := ParseLimitQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
+			return
+		}
+
+		lesson.Search = search
+		lesson.Offset = int64(page)
+		lesson.Limit = int64(limit)
+
+		resp, err := h.grpcClient.LessonService().GetList(c.Request.Context(), lesson)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating lesson")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get lessons")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -62,18 +73,28 @@ func (h *handler) GetAllLesson(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) CreateLesson(c *gin.Context) {
-	lesson := &lesson_service.CreateLesson{}
-	if err := c.ShouldBindJSON(&lesson); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.LessonService().Create(c.Request.Context(), lesson)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating lesson")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		lesson := &lesson_service.CreateLesson{}
+		if err := c.ShouldBindJSON(&lesson); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.LessonService().Create(c.Request.Context(), lesson)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating lesson")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get lessons")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -89,18 +110,28 @@ func (h *handler) CreateLesson(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) UpdateLesson(c *gin.Context) {
-	lesson := &lesson_service.UpdateLesson{}
-	if err := c.ShouldBindJSON(&lesson); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.LessonService().Update(c.Request.Context(), lesson)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while updating lesson")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		lesson := &lesson_service.UpdateLesson{}
+		if err := c.ShouldBindJSON(&lesson); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.LessonService().Update(c.Request.Context(), lesson)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while updating lesson")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get lessons")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -116,15 +147,24 @@ func (h *handler) UpdateLesson(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetLessonById(c *gin.Context) {
-	id := c.Param("id")
-	lesson := &lesson_service.LessonPrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.LessonService().GetByID(c.Request.Context(), lesson)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while getting lesson")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		id := c.Param("id")
+		lesson := &lesson_service.LessonPrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.LessonService().GetByID(c.Request.Context(), lesson)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while getting lesson")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get lessons")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -140,13 +180,22 @@ func (h *handler) GetLessonById(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) DeleteLesson(c *gin.Context) {
-	id := c.Param("id")
-	lesson := &lesson_service.LessonPrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.LessonService().Delete(c.Request.Context(), lesson)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while deleting lesson")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		id := c.Param("id")
+		lesson := &lesson_service.LessonPrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.LessonService().Delete(c.Request.Context(), lesson)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while deleting lesson")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get lessons")
+	}
 }

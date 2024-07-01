@@ -2,6 +2,7 @@ package handler
 
 import (
 	"crm_api_gateway/genproto/perfomance_service"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,31 +23,41 @@ import (
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetAllPerfomance(c *gin.Context) {
-	perfomance := &perfomance_service.GetListPerfomanceRequest{}
-
-	search := c.Query("search")
-
-	page, err := ParsePageQueryParam(c)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
-		return
-	}
-	limit, err := ParseLimitQueryParam(c)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
-		return
-	}
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
 
-	perfomance.Search = search
-	perfomance.Offset = int64(page)
-	perfomance.Limit = int64(limit)
-
-	resp, err := h.grpcClient.PerfomanceService().GetList(c.Request.Context(), perfomance)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating perfomance")
-		return
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		perfomance := &perfomance_service.GetListPerfomanceRequest{}
+
+		search := c.Query("search")
+
+		page, err := ParsePageQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
+			return
+		}
+		limit, err := ParseLimitQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
+			return
+		}
+
+		perfomance.Search = search
+		perfomance.Offset = int64(page)
+		perfomance.Limit = int64(limit)
+
+		resp, err := h.grpcClient.PerfomanceService().GetList(c.Request.Context(), perfomance)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating perfomance")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get student_performance")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -62,18 +73,28 @@ func (h *handler) GetAllPerfomance(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) CreatePerfomance(c *gin.Context) {
-	perfomance := &perfomance_service.CreatePerfomance{}
-	if err := c.ShouldBindJSON(&perfomance); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.PerfomanceService().Create(c.Request.Context(), perfomance)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating perfomance")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "teacher" || authInfo.UserRole == "support_teacher" {
+
+		perfomance := &perfomance_service.CreatePerfomance{}
+		if err := c.ShouldBindJSON(&perfomance); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.PerfomanceService().Create(c.Request.Context(), perfomance)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating perfomance")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, teachers and support_teachers can change student_performance")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -89,18 +110,28 @@ func (h *handler) CreatePerfomance(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) UpdatePerfomance(c *gin.Context) {
-	perfomance := &perfomance_service.UpdatePerfomance{}
-	if err := c.ShouldBindJSON(&perfomance); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.PerfomanceService().Update(c.Request.Context(), perfomance)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while updating perfomance")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "teacher" || authInfo.UserRole == "support_teacher" {
+
+		perfomance := &perfomance_service.UpdatePerfomance{}
+		if err := c.ShouldBindJSON(&perfomance); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.PerfomanceService().Update(c.Request.Context(), perfomance)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while updating perfomance")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, teachers and support_teachers can change student_performance")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -116,15 +147,25 @@ func (h *handler) UpdatePerfomance(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetPerfomanceById(c *gin.Context) {
-	id := c.Param("id")
-	perfomance := &perfomance_service.PerfomancePrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.PerfomanceService().GetByID(c.Request.Context(), perfomance)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while getting perfomance")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "teacher" || authInfo.UserRole == "support_teacher" {
+
+		id := c.Param("id")
+		perfomance := &perfomance_service.PerfomancePrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.PerfomanceService().GetByID(c.Request.Context(), perfomance)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while getting perfomance")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, teachers and support_teachers can change student_performance")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -140,13 +181,23 @@ func (h *handler) GetPerfomanceById(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) DeletePerfomance(c *gin.Context) {
-	id := c.Param("id")
-	perfomance := &perfomance_service.PerfomancePrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.PerfomanceService().Delete(c.Request.Context(), perfomance)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while deleting perfomance")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "administrator" || authInfo.UserRole == "manager" {
+
+		id := c.Param("id")
+		perfomance := &perfomance_service.PerfomancePrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.PerfomanceService().Delete(c.Request.Context(), perfomance)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while deleting perfomance")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can delete student_performance")
+	}
 }

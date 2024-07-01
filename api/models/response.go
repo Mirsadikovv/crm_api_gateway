@@ -50,3 +50,8 @@ type GetListCategoryRequest struct {
 	Limit  int64  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	Search string `protobuf:"bytes,3,opt,name=search,proto3" json:"search,omitempty"`
 }
+
+type AuthInfo struct {
+	UserID   string `json:"user_id"`
+	UserRole string `json:"user_role"`
+}

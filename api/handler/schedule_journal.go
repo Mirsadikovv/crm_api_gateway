@@ -2,6 +2,7 @@ package handler
 
 import (
 	"crm_api_gateway/genproto/journal_service"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,31 +23,41 @@ import (
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetAllJournal(c *gin.Context) {
-	journal := &journal_service.GetListJournalRequest{}
-
-	search := c.Query("search")
-
-	page, err := ParsePageQueryParam(c)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
-		return
-	}
-	limit, err := ParseLimitQueryParam(c)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
-		return
-	}
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
 
-	journal.Search = search
-	journal.Offset = int64(page)
-	journal.Limit = int64(limit)
-
-	resp, err := h.grpcClient.JournalService().GetList(c.Request.Context(), journal)
-	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating journal")
-		return
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		journal := &journal_service.GetListJournalRequest{}
+
+		search := c.Query("search")
+
+		page, err := ParsePageQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing page")
+			return
+		}
+		limit, err := ParseLimitQueryParam(c)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while parsing limit")
+			return
+		}
+
+		journal.Search = search
+		journal.Offset = int64(page)
+		journal.Limit = int64(limit)
+
+		resp, err := h.grpcClient.JournalService().GetList(c.Request.Context(), journal)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating journal")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get journal")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -62,18 +73,28 @@ func (h *handler) GetAllJournal(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) CreateJournal(c *gin.Context) {
-	journal := &journal_service.CreateJournal{}
-	if err := c.ShouldBindJSON(&journal); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.JournalService().Create(c.Request.Context(), journal)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while creating journal")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		journal := &journal_service.CreateJournal{}
+		if err := c.ShouldBindJSON(&journal); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.JournalService().Create(c.Request.Context(), journal)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while creating journal")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get journal")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -89,18 +110,28 @@ func (h *handler) CreateJournal(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) UpdateJournal(c *gin.Context) {
-	journal := &journal_service.UpdateJournal{}
-	if err := c.ShouldBindJSON(&journal); err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
-		return
-	}
-
-	resp, err := h.grpcClient.JournalService().Update(c.Request.Context(), journal)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while updating journal")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		journal := &journal_service.UpdateJournal{}
+		if err := c.ShouldBindJSON(&journal); err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while reading body")
+			return
+		}
+
+		resp, err := h.grpcClient.JournalService().Update(c.Request.Context(), journal)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while updating journal")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get journal")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -116,15 +147,25 @@ func (h *handler) UpdateJournal(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) GetJournalById(c *gin.Context) {
-	id := c.Param("id")
-	journal := &journal_service.JournalPrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.JournalService().GetByID(c.Request.Context(), journal)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while getting journal")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		id := c.Param("id")
+		journal := &journal_service.JournalPrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.JournalService().GetByID(c.Request.Context(), journal)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while getting journal")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get journal")
+	}
 }
 
 // @Security ApiKeyAuth
@@ -140,13 +181,23 @@ func (h *handler) GetJournalById(c *gin.Context) {
 // @Failure		404  {object}  models.ResponseError
 // @Failure		500  {object}  models.ResponseError
 func (h *handler) DeleteJournal(c *gin.Context) {
-	id := c.Param("id")
-	journal := &journal_service.JournalPrimaryKey{Id: id}
-
-	resp, err := h.grpcClient.JournalService().Delete(c.Request.Context(), journal)
+	authInfo, err := getAuthInfo(c)
 	if err != nil {
-		handleGrpcErrWithDescription(c, h.log, err, "error while deleting journal")
-		return
+		handleGrpcErrWithDescription(c, h.log, err, "Unauthorized")
+
 	}
-	c.JSON(http.StatusOK, resp)
+	if authInfo.UserRole == "superadmin" || authInfo.UserRole == "manager" || authInfo.UserRole == "administrator" {
+
+		id := c.Param("id")
+		journal := &journal_service.JournalPrimaryKey{Id: id}
+
+		resp, err := h.grpcClient.JournalService().Delete(c.Request.Context(), journal)
+		if err != nil {
+			handleGrpcErrWithDescription(c, h.log, err, "error while deleting journal")
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	} else {
+		handleGrpcErrWithDescription(c, h.log, errors.New("Forbidden"), "Only superadmins, administrators and managers can get journal")
+	}
 }
